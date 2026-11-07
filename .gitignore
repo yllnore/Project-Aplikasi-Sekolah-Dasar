@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Sensitive runtime session data (CRITICAL: Do NOT commit)
+profiles/
+screenshots/
+config.json
+*.log
+.env

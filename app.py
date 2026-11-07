@@ -40,16 +40,25 @@ BATCH_RUNNING: bool = False
 STOP_BATCH: bool = False
 
 
+# In-memory runtime state: data kredensial tidak pernah disimpan ke disk
+MEMORY_CONFIG: Dict[str, Any] = {
+    "target_region": "US",
+    "target_plan": "pro_2year_zero",
+    "auto_cancel": True,
+    "proxy_template": "",
+    "card": {},
+    "accounts": [],
+}
+
+
 def load_config() -> Dict[str, Any]:
-    if not os.path.exists(CONFIG_PATH):
-        return {"target_region": "US", "target_plan": "pro_2year_zero", "auto_cancel": True, "card": {}, "accounts": []}
-    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+    return MEMORY_CONFIG
 
 
 def save_config(cfg: Dict[str, Any]):
-    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
-        json.dump(cfg, f, ensure_ascii=False, indent=2)
+    global MEMORY_CONFIG
+    MEMORY_CONFIG = cfg
+    # Dinonaktifkan: Kredensial tidak pernah ditulis ke disk (Zero disk persistence)
 
 
 def append_log(line: str):
